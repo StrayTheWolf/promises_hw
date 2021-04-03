@@ -5,8 +5,6 @@ import {Storage} from './storage'
 class LocalStorage extends Storage {
 
     add(key, value) {
-        this.value = value;
-
         return new Promise((resolve, reject) => {
             resolve(localStorage.setItem(key, value))
         });
@@ -25,8 +23,6 @@ class LocalStorage extends Storage {
     }
 
     update(key, value) {
-        this.value = value;
-
         return new Promise((resolve, reject) => {
             resolve(localStorage.setItem(key, value))
         });

@@ -148,7 +148,6 @@ var LocalStorage = /*#__PURE__*/function (_Storage) {
   _createClass(LocalStorage, [{
     key: "add",
     value: function add(key, value) {
-      this.value = value;
       return new Promise(function (resolve, reject) {
         resolve(localStorage.setItem(key, value));
       });
@@ -170,7 +169,6 @@ var LocalStorage = /*#__PURE__*/function (_Storage) {
   }, {
     key: "update",
     value: function update(key, value) {
-      this.value = value;
       return new Promise(function (resolve, reject) {
         resolve(localStorage.setItem(key, value));
       });
