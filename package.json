@@ -1,0 +1,23 @@
+{
+  "name": "promises",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StrayTheWolf/promises_hw.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/StrayTheWolf/promises_hw/issues"
+  },
+  "homepage": "https://github.com/StrayTheWolf/promises_hw#readme",
+  "devDependencies": {
+    "laravel-mix": "^6.0.16",
+    "postcss": "^8.1.14"
+  }
+}
