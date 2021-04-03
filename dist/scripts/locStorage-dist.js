@@ -118,10 +118,6 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
-
-function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
@@ -160,29 +156,15 @@ var LocalStorage = /*#__PURE__*/function (_Storage) {
   }, {
     key: "get",
     value: function get(key) {
-      var _this = this;
-
       return new Promise(function (resolve, reject) {
-        localStorage.getItem(key);
-        resolve('Get ' + key + ' ' + _this.value);
+        resolve(localStorage.getItem(key));
       });
     }
   }, {
     key: "delete",
     value: function _delete(key) {
-      var _this2 = this;
-
-      this.key = key;
-
-      _get(_getPrototypeOf(LocalStorage.prototype), "delete", this).call(this, key);
-
       return new Promise(function (resolve, reject) {
-        if (localStorage.getItem(key)) {
-          localStorage.removeItem(key);
-          resolve(_this2.key + ' Deleted');
-        } else if (localStorage.getItem(key) !== _this2.key.toString()) {
-          reject('Not found');
-        }
+        resolve(localStorage.removeItem(key));
       });
     }
   }, {
@@ -205,13 +187,18 @@ storage.add('Name', 'Homer').then(function () {
 storage.get('Name').then(function (result) {
   console.log(result);
 });
-storage["delete"]('Name').then(function (result) {
+storage["delete"]('Name').then(function () {
+  console.log('deleted');
+});
+storage.get('Name').then(function (result) {
   console.log(result);
 });
 storage.update('Name', 'Bart').then(function () {
   console.log('Modified');
 });
-console.log(localStorage.getItem('Name'));
+storage.get('Name').then(function (result) {
+  console.log(result);
+});
 })();
 
 /******/ })()

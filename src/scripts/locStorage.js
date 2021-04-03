@@ -14,22 +14,13 @@ class LocalStorage extends Storage {
 
     get(key) {
         return new Promise((resolve, reject) => {
-            localStorage.getItem(key)
-            resolve('Get ' + key + ' ' + this.value);
+            resolve(localStorage.getItem(key));
         });
     }
 
     delete(key) {
-        this.key = key;
-        super.delete(key);
-
         return new Promise((resolve, reject) => {
-            if (localStorage.getItem(key)) {
-                localStorage.removeItem(key)
-                resolve(this.key + ' Deleted')
-            } else if (localStorage.getItem(key) !== this.key.toString()) {
-                reject('Not found')
-            }
+            resolve(localStorage.removeItem(key))
         });
     }
 
@@ -55,6 +46,11 @@ storage.get('Name')
     });
 
 storage.delete('Name')
+    .then(() => {
+        console.log('deleted');
+    });
+
+storage.get('Name')
     .then(function (result) {
         console.log(result)
     });
@@ -63,3 +59,8 @@ storage.update('Name', 'Bart')
     .then(() => {
         console.log('Modified')
     })
+
+storage.get('Name')
+    .then(function (result) {
+        console.log(result)
+    });
