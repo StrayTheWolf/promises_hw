@@ -2,26 +2,64 @@
 
 import {Storage} from './storage'
 
-class LocalStorage extends Storage{
-    add(key, value) {
+class LocalStorage extends Storage {
 
-        this.key = key;
+    add(key, value) {
         this.value = value;
 
-        super.add(key, value)
+        return new Promise((resolve, reject) => {
+            resolve(localStorage.setItem(key, value))
+        });
+    }
+
+    get(key) {
+        return new Promise((resolve, reject) => {
+            localStorage.getItem(key)
+            resolve('Get ' + key + ' ' + this.value);
+        });
+    }
+
+    delete(key) {
+        this.key = key;
+        super.delete(key);
 
         return new Promise((resolve, reject) => {
-            resolve('added')
+            if (localStorage.getItem(key)) {
+                localStorage.removeItem(key)
+                resolve(this.key + ' Deleted')
+            } else if (localStorage.getItem(key) !== this.key.toString()) {
+                reject('Not found')
+            }
+        });
+    }
+
+    update(key, value) {
+        this.value = value;
+
+        return new Promise((resolve, reject) => {
+            resolve(localStorage.setItem(key, value))
         });
     }
 }
 
 const storage = new LocalStorage();
 
-storage.add('name','John')
+storage.add('Name', 'Homer')
+    .then(() => {
+        console.log('added');
+    });
 
-    .then(function (result){
-    console.log(result)
-})
+storage.get('Name')
+    .then(function (result) {
+        console.log(result)
+    });
 
-console.log(storage.key, storage.value);
+storage.delete('Name')
+    .then(function (result) {
+        console.log(result)
+    });
+
+storage.update('Name', 'Bart')
+    .then(() => {
+        console.log('Modified')
+    })

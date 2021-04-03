@@ -152,13 +152,45 @@ var LocalStorage = /*#__PURE__*/function (_Storage) {
   _createClass(LocalStorage, [{
     key: "add",
     value: function add(key, value) {
-      this.key = key;
       this.value = value;
-
-      _get(_getPrototypeOf(LocalStorage.prototype), "add", this).call(this, key, value);
+      return new Promise(function (resolve, reject) {
+        resolve(localStorage.setItem(key, value));
+      });
+    }
+  }, {
+    key: "get",
+    value: function get(key) {
+      var _this = this;
 
       return new Promise(function (resolve, reject) {
-        resolve('added');
+        localStorage.getItem(key);
+        resolve('Get ' + key + ' ' + _this.value);
+      });
+    }
+  }, {
+    key: "delete",
+    value: function _delete(key) {
+      var _this2 = this;
+
+      this.key = key;
+
+      _get(_getPrototypeOf(LocalStorage.prototype), "delete", this).call(this, key);
+
+      return new Promise(function (resolve, reject) {
+        if (localStorage.getItem(key)) {
+          localStorage.removeItem(key);
+          resolve(_this2.key + ' Deleted');
+        } else if (localStorage.getItem(key) !== _this2.key.toString()) {
+          reject('Not found');
+        }
+      });
+    }
+  }, {
+    key: "update",
+    value: function update(key, value) {
+      this.value = value;
+      return new Promise(function (resolve, reject) {
+        resolve(localStorage.setItem(key, value));
       });
     }
   }]);
@@ -167,10 +199,19 @@ var LocalStorage = /*#__PURE__*/function (_Storage) {
 }(_storage__WEBPACK_IMPORTED_MODULE_0__.Storage);
 
 var storage = new LocalStorage();
-storage.add('name', 'John').then(function (result) {
+storage.add('Name', 'Homer').then(function () {
+  console.log('added');
+});
+storage.get('Name').then(function (result) {
   console.log(result);
 });
-console.log(storage.key, storage.value);
+storage["delete"]('Name').then(function (result) {
+  console.log(result);
+});
+storage.update('Name', 'Bart').then(function () {
+  console.log('Modified');
+});
+console.log(localStorage.getItem('Name'));
 })();
 
 /******/ })()
